@@ -1,0 +1,58 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+@import 'font-awesome/scss/font-awesome.scss';
+
+// Datatables
+@import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+@import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
+@import 'datatables.net-colreorder-bs5/css/colReorder.bootstrap5.min.css';
+@import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
+
+// Sweetalert2
+@import 'sweetalert2/src/sweetalert2.scss';
+
+// flatpickr
+@import 'flatpickr/dist/flatpickr.min.css';
+
+// tinymce
+@import 'tinymce/skins/ui/oxide/skin.min.css';
+@import 'tinymce/skins/ui/oxide/content.min.css';
+
+
+[x-cloak] {
+    display: none !important;
+    visibility: hidden;
+    overflow: hidden
+}
+
+[x-on\:click] {
+    cursor: pointer;
+}
+
+
+/* Mengatur wrapper file pond item menjadi flex container */
+.filepond--items {
+    display: flex;
+    flex-wrap: wrap; /* Membungkus item ke baris berikutnya jika tidak cukup ruang */
+    gap: 16px; /* Spasi antar item */
+}
+
+/* Mengatur item FilePond untuk tampilan 4 kolom */
+.filepond--item {
+    flex: 0 0 calc(25% - 16px); /* Membuat setiap item 25% dari lebar kontainer minus gap */
+    box-sizing: border-box; /* Memastikan ukuran item sesuai dengan perhitungan */
+    margin-bottom: 16px; /* Spasi bawah untuk item */
+}
+
+/* Pastikan preview gambar memiliki ukuran yang konsisten */
+.filepond--image-preview {
+    width: 100%; /* Membuat gambar memenuhi lebar item */
+    height: auto;
+    border-radius: 8px; /* Menambahkan border-radius untuk estetika */
+}
