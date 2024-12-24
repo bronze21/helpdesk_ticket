@@ -1,5 +1,10 @@
 <?php
 
+/* 
+* Author: Muhammad Bagus Harianto (GitHub: github.com/bronze21)
+* Project: https://github.com/bronze21/helpdesk_ticket
+*/
+
 namespace App\Http\Middleware;
 
 use App\Providers\RouteServiceProvider;

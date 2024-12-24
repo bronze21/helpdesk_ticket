@@ -1,10 +1,20 @@
 @guest
+{{--
+* Author: Muhammad Bagus Harianto (GitHub: github.com/bronze21)
+* Project: https://github.com/bronze21/helpdesk_ticket
+--}}
+
 @extends('errors::minimal')
 
 @section('title', __('Not Found'))
 @section('code', '404')
 @section('message', __('Not Found'))
 @else
+{{--
+* Author: Muhammad Bagus Harianto (GitHub: github.com/bronze21)
+* Project: https://github.com/bronze21/helpdesk_ticket
+--}}
+
 @extends('layouts.dashboard',['title'=>"Ooops..",'crumbs'=>[]])
 
 @section('content')

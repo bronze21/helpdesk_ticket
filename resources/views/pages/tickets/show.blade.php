@@ -1,3 +1,8 @@
+{{--
+* Author: Muhammad Bagus Harianto (GitHub: github.com/bronze21)
+* Project: https://github.com/bronze21/helpdesk_ticket
+--}}
+
 @extends('layouts.dashboard',['plugins'=>['Swal2','Tinymce','lightbox']])
 
 @section('submenu')
