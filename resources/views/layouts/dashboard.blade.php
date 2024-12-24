@@ -259,9 +259,6 @@
         </div>
     </div>
     <script>
-        document.addEventListener('alpine:init', () => {
-            Alpho
-        })
     </script>
     @yield('js')
 </body>

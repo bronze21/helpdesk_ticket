@@ -63,7 +63,8 @@ class TicketController extends Controller
         })
         ->addColumn('status',function($data){
             $statusColor = $data->statusColor[$data->status];
-            return "<span class='badge bg-{$statusColor} w-100'>{$data->status}</span>";
+            $statusLabel = ucwords(str_replace('_',' ',$data->status));
+            return "<span class='badge bg-{$statusColor} w-100'>{$statusLabel}</span>";
         })
         ->orderColumn('due_date', fn($q,$o)=>$q->orderBy('due_date', $o))
         ->orderColumn('topic', fn($q,$o)=>$q->orderBy('title', $o))
@@ -84,8 +85,17 @@ class TicketController extends Controller
         ->filter(function($query) use ($request) {
             if($request->has('search.value') && $request->input('search.value')) {
                 $query->join('tickets_comments','tickets.id','=','tickets_comments.ticket_id')
+                ->join('users as owner','tickets.created_by','=','owner.id')
+                ->join('categories','tickets.category_id','=','categories.id')
+                ->join('subcategories','tickets.subcategory_id','=','subcategories.id')
                 ->where('title','like','%'.$request->input('search.value').'%')
+                ->orWhere('code','like','%'.$request->input('search.value').'%')
+                ->orWhere('status','like','%'.$request->input('search.value').'%')
                 ->orWhere('tickets_comments.messages','like','%'.$request->input('search.value').'%')
+                ->orWhere('owner.name','like','%'.$request->input('search.value').'%')
+                ->orWhere('categories.name','like','%'.$request->input('search.value').'%')
+                ->orWhere('subcategories.name','like','%'.$request->input('search.value').'%')
+                ->groupBy('tickets.id')
                 ->select('tickets.*');
             }
         })
@@ -115,6 +125,22 @@ class TicketController extends Controller
         })
         ->orderColumn('latest_update', fn($q,$o)=>$q->orderBy('latest_update', $o))
         ->rawColumns(['topic','action'])
+        ->filter(function($query) use ($request) {
+            if($request->has('search.value') && $request->input('search.value')) {
+                $query->join('tickets_comments','tickets.id','=','tickets_comments.ticket_id')
+                ->join('users as owner','tickets.created_by','=','owner.id')
+                ->join('categories','tickets.category_id','=','categories.id')
+                ->join('subcategories','tickets.subcategory_id','=','subcategories.id')
+                ->where('title','like','%'.$request->input('search.value').'%')
+                ->orWhere('code','like','%'.$request->input('search.value').'%')
+                ->orWhere('tickets_comments.messages','like','%'.$request->input('search.value').'%')
+                ->orWhere('owner.name','like','%'.$request->input('search.value').'%')
+                ->orWhere('categories.name','like','%'.$request->input('search.value').'%')
+                ->orWhere('subcategories.name','like','%'.$request->input('search.value').'%')
+                ->groupBy('tickets.id')
+                ->select('tickets.*');
+            }
+        })
         ->make(true);
     }
 

@@ -30,6 +30,7 @@ class Ticket extends Model
     public $statusLabel = [
         'open' => "Menunggu Respon Agen",
         'on_going' => "Tiket Sedang Berjalan",
+        'on_progress' => "Tiket Sedang Berjalan",
         'resolved' => "Tiket Selesai",
         'unresolved' => "Tiket Belum Selesai",
         'closed' => "Ticket di Tutup",
@@ -38,6 +39,7 @@ class Ticket extends Model
     public $statusColor = [
         'open' => "warning",
         'on_going' => "info",
+        'on_progress' => "info",
         'resolved' => "success",
         'unresolved' => "warning",
         'closed' => "danger",
@@ -71,7 +73,7 @@ class Ticket extends Model
         return $listColor[$this->priority];
     }
 
-    public function Options():Attribute
+    public function tOptions():Attribute
     {
         return Attribute::make(
             get: fn ($value) => (object)[

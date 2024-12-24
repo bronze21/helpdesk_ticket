@@ -175,7 +175,6 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property-read mixed $options
  * @property-read \App\Models\User|null $activeAgent
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $agents
  * @property-read int|null $agents_count
@@ -187,6 +186,7 @@ namespace App\Models{
  * @property-read int|null $histories_count
  * @property-read \App\Models\User $owner
  * @property-read \App\Models\Subcategory|null $subcategory
+ * @property-read mixed $t_options
  * @method static \Illuminate\Database\Eloquent\Builder|Ticket latestUpdate()
  * @method static \Illuminate\Database\Eloquent\Builder|Ticket newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ticket newQuery()
