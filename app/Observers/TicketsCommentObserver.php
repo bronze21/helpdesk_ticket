@@ -2,9 +2,11 @@
 
 namespace App\Observers;
 
+use App\Mail\TicketNotification;
 use App\Models\TicketsComment;
 use App\Models\TicketsHistory;
 use DB;
+use Mail;
 
 class TicketsCommentObserver
 {
@@ -26,6 +28,13 @@ class TicketsCommentObserver
             $newTicketHistory->new_data = $ticketsComment->toArray();
             $newTicketHistory->save();
             DB::commit();
+            $mailAccounts = [$ticketsComment->ticket->owner->email];
+            if($user->role->slug=='user'){
+                $mailAccounts = $ticketsComment->ticket->agents()->pluck('email')->toArray();
+            }
+            foreach($mailAccounts as $mailAccount){
+                Mail::to($mailAccount)->send(new TicketNotification($ticketsComment));
+            }
         } catch (\Throwable $th) {
             DB::rollBack();
             throw $th;
