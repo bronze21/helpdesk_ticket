@@ -94,7 +94,7 @@ class User extends Authenticatable
 
     public function tickets()
     {
-        if($this->role->slug=='admin'){
+        if($this->role->slug=='user'){
             return $this->hasMany(Ticket::class,'created_by');
         }else{
             return $this->belongsToMany(Ticket::class,TicketsAgent::class,'user_id','ticket_id')->withPivot(['isActive','due_date']);

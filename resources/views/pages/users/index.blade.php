@@ -3,7 +3,7 @@
 * Project: https://github.com/bronze21/helpdesk_ticket
 --}}
 
-@extends('layouts.dashboard',['plugins'=>['DataTables']])
+@extends('layouts.dashboard',['plugins'=>['DataTables', 'Swal2']])
 
 @section('submenu')
 <div class="links h-100">
@@ -92,7 +92,7 @@
 									<i class="fa fa-edit me-0 me-lg-2"></i>
 									<span class="d-none d-lg-inline-block">Edit</span>
 								</a>
-								<a href="{{route('users.destroy', $data->id)}}" role="button" class="btn btn-sm btn-outline-danger">
+								<a href="{{route('users.destroy', $data->id)}}" role="button" class="btn btn-sm btn-outline-danger" x-on:click.prevent="confirmDelete($el, {{$data->id}})">
 									<i class="fa fa-trash me-0 me-lg-2"></i>
 									<span class="d-none d-lg-inline-block">Delete</span>
 								</a>
@@ -134,6 +134,39 @@
 				this.filter.search = ''
 				this.filter.date.start = ''
 				this.filter.date.end = ''
+			},
+			confirmDelete(el, id){
+				let url = el.getAttribute('href')
+				SwalBS.fire({
+					title: 'Are you sure?',
+					text: "You won't be able to revert this!",
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				}).then((result) => {
+					if (result.isConfirmed) {
+						SwalBS.close()
+						axios.delete(url).then(res => {
+							SwalBS.close()
+							SwalBS.fire(
+								'Deleted!',
+								'This account has been deleted.',
+								'success'
+							)
+							location.reload()
+						}).catch(err => {
+							console.log(err)
+							SwalBS.close()
+							SwalBS.fire(
+								'Failed!',
+								'This account has not been deleted.',
+								'error'
+							)
+						})
+					}
+				})
 			}
 		}))
 		let masterContent = document.querySelector('.master-content')

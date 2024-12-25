@@ -16,7 +16,7 @@
 			</a>
 		</li>
 		<li class="nav-item">
-			<a href="{{route('users.index')}}" class="nav-link text-white">
+			<a href="{{route('staff.index')}}" class="nav-link text-white">
 				<i class="fa fa-ban d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Cancel</small>
 			</a>
@@ -29,7 +29,7 @@
 <section class="container bg-white h-100 shadow">
 	<div class="row justify-content-md-center h-100">
 		<div class="col-12 px-md-4">
-			<form action="{{route('users.store')}}" method="post" class="main-form position-relative h-100" x-watch="isFormValid()">
+			<form action="{{route('staff.store')}}" method="post" class="main-form position-relative h-100" x-watch="isFormValid()">
 				<h5>Harap isi form dibawah ini.</h5>
 				<div class="form-group row mb-3 mx-0">
 					@csrf
@@ -64,6 +64,22 @@
 						</div>
 					</div>
 					@error('phone_number')
+						<span class="invalid-feedback" role="alert">
+							<strong>{{ $message }}</strong>
+						</span>
+					@enderror
+				</div>
+				<div class="form-group row mb-3 mx-0">
+					<label class="col-lg-4 ps-0 col-form-label" for="selected_role">Role <small class="text-danger">*</small></label>
+					<div class="col px-0">
+						<select name="selected_role" id="selected_role" class="form-control" required="required" x-model="required.selected_role">
+							<option value="">Pilih Role</option>
+							@foreach($roles as $role)
+								<option value="{{$role->slug}}">{{$role->name}}</option>
+							@endforeach
+						</select>
+					</div>
+					@error('email')
 						<span class="invalid-feedback" role="alert">
 							<strong>{{ $message }}</strong>
 						</span>
@@ -113,7 +129,8 @@
 				email: '',
 				phone_number: '',
 				password: '',
-				re_password: ''
+				re_password: '',
+				selected_role: ''
 			},
 			valid: false,
 			init() {

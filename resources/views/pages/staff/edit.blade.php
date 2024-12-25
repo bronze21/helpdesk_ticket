@@ -69,6 +69,22 @@
 						</span>
 					@enderror
 				</div>
+				<div class="form-group row mb-3 mx-0">
+					<label class="col-lg-4 ps-0 col-form-label" for="selected_role">Role <small class="text-danger">*</small></label>
+					<div class="col px-0">
+						<select name="selected_role" id="selected_role" class="form-control" required="required" x-model="required.selected_role" value="{{$data?->role->slug ?? ''}}">
+							<option value="">Pilih Role</option>
+							@foreach($roles as $role)
+								<option value="{{$role->slug}}" @selected($role->slug==$data?->role->slug)>{{$role->name}}</option>
+							@endforeach
+						</select>
+					</div>
+					@error('email')
+						<span class="invalid-feedback" role="alert">
+							<strong>{{ $message }}</strong>
+						</span>
+					@enderror
+				</div>
 				<div class="w-100 clearfix py-2"></div>
 				<div class="row position-absolute w-100 mx-0" style="bottom: 0;gap: 1rem;">
 					<div class="col-lg col-12 px-0">
@@ -143,6 +159,7 @@
 				name: '',
 				email: '',
 				phone_number: '',
+				selected_role: ''
 			},
 			change_password:{
 				old_password: '',
@@ -157,7 +174,8 @@
 				this.required = {
 					name: document.getElementById('name').value,
 					email: document.getElementById('email').value,
-					phone_number: document.getElementById('phone_number').value
+					phone_number: document.getElementById('phone_number').value,
+					selected_role: document.getElementById('selected_role').value
 				}
 				this.change_password = {
 					old_password: document.getElementById('old_password').value,

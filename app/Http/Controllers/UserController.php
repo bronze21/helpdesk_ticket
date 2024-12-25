@@ -172,9 +172,20 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, User $user)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $user->delete();
+            DB::commit();
+            if($request->ajax()) return $this->json_success(null,"User \"{$user->name}\"  Deleted Successfully");
+            return redirect()->route('users.index')->with('success',"User \"{$user->name}\" has been deleted");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            if($request->ajax()) return $this->json_error(null,$th->getMessage());
+            return redirect()->back()->withErrors(['error' => $th->getMessage()])->withInput();
+        }
     }
 }
 

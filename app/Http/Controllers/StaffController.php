@@ -45,6 +45,7 @@ class StaffController extends Controller
             'title' => 'Create New Staff',
             'url' => route('staff.create'),
         ];
+        $this->data['roles'] = Role::where('slug','!=','user')->get();
         return view('pages.staff.create',$this->data);
     }
 
@@ -57,7 +58,8 @@ class StaffController extends Controller
             'name'=>'required|min:3',
             'email'=>'required|email',
             'password'=>'required',
-            're_password'=>'required|same:password'
+            're_password'=>'required|same:password',
+            'selected_role'=>'required|exists:roles,slug'
         ]);
         try {
             DB::beginTransaction();
@@ -103,6 +105,7 @@ class StaffController extends Controller
             'url' => route('staff.edit',[$staff->id]),
         ];
         $this->data['data'] = $staff;
+        $this->data['roles'] = Role::where('slug','!=','user')->get();
         return view('pages.staff.edit',$this->data);
     }
 
@@ -161,8 +164,19 @@ class StaffController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, User $staff)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $staff->delete();
+            DB::commit();
+            if($request->ajax()) return $this->json_success(null,"Staff \"{$staff->name}\"  Deleted Successfully");
+            return redirect()->route('staff.index')->with('success',"Staff \"{$staff->name}\" has been deleted");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+            if($request->ajax()) return $this->json_error(null,$th->getMessage());
+            return redirect()->back()->withErrors(['error' => $th->getMessage()])->withInput();
+        }
     }
 }

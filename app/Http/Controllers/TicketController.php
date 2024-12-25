@@ -282,7 +282,7 @@ class TicketController extends Controller
     public function store_reply(Request $request, Ticket $ticket)
     {
         $rules = [
-            'message'=>'required|min:20',
+            'message'=>'required|min:10',
             'file'=>'array|min:0',
         ];
         if($request->hasFile('file')) {
@@ -318,22 +318,27 @@ class TicketController extends Controller
                 $uploaded_files = [];
                 if(is_array($request->file('file'))) {
                     foreach($request->file('file') as $file){
-                        $file_location = $file->store('public/ticket_attachments');
+                        $SavedfileName = Str::random(60).'.'.$file->getClientOriginalExtension();
+                        $file_location = 'ticket_attachments/'.$ticket->code.'/'.$SavedfileName;
                         $uploaded_files[] = (object) [
                             'file_path' => $file_location,
                             'name' => $file->getClientOriginalName(),
                             'size' => $file->getSize(),
                             'file_type' => $file->getClientMimeType(),
                         ];
+                        $file->move(public_path('ticket_attachments/'.$ticket->code), $SavedfileName);
                     }
                 }else{
-                    $file_location = $request->file('file')->store("public/ticket_attachments/$request->ticket_code");
+                    $file = $request->file('file');
+                    $SavedfileName = Str::random(60).'.'.$file->getClientOriginalExtension();
+                    $file_location = "ticket_attachments/$ticket->code/$SavedfileName";
                     $uploaded_files[] = (object)[
                         'file_path' => $file_location,
                         'name' => $request->file('file')->getClientOriginalName(),
                         'size' => $request->file('file')->getSize(),
                         'file_type' => $request->file('file')->getClientMimeType(),
                     ];
+                    $file->move(public_path("ticket_attachments/$ticket->code"), $SavedfileName);
                 }
 
                 foreach($uploaded_files as $upFiles){
@@ -396,8 +401,16 @@ class TicketController extends Controller
 
     public function updateStatus(Request $request, Ticket $ticket)
     {
+        $rules = [
+            'open'=>'required|in:on_progress,closed',
+            'on_progress'=>'required|in:resolved,unresolved,closed',
+            'closed'=>'required|in:resolved,unresolved',
+            'resolved'=>'required|in:closed',
+            'unresolved'=>'required|in:closed',
+        ];
+        
         $validator = Validator::make($request->all(),[
-            'status'=>'required|in:on_progress,closed' 
+            'status'=>$rules[$ticket->status], 
         ]);
 
         if($validator->fails()) return $this->json_error(null,$validator->errors()->first());

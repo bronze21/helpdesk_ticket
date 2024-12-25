@@ -111,7 +111,7 @@
 			</div>
 		</div>
 	</div>
-	@if (!in_array($data->status,['closed','unresolved']))
+	@if (!in_array($data->status,['closed','unresolved','resolved']))
 	<form class="card" method="POST" action="{{route('tickets.store_reply',$data->id)}}" enctype="multipart/form-data">
 		<div class="card-body" :class="{'border-bottom': !showSubCategory}">
 			<div class="row">
@@ -145,8 +145,8 @@
 			<button type="submit" class="btn btn-primary"><i class="fa fa-send me-1"></i>Send</button>
 		</div>
 	</form>
-	@endif
 	<div class="w-100 py-3"></div>
+	@endif
 	<div class="card">
 		@foreach ($data->comments as $reply)
 		<div class="card-body">
@@ -175,8 +175,8 @@
 							<div class="preview-item text-decoration-none text-dark" style="height: max-content;"" data-toggle="lightbox">
 								<div class="preview-thumbnail">
 									@if (str_contains($attachment->type,'image'))
-									<a x-on:click="setImageViewer('{{asset("storage/$attachment->path")}}')" data-gallery="{{$reply->ticket_id}}">
-										<img src="{{asset("storage/$attachment->path")}}" alt="" class="img-thumbnail square">
+									<a x-on:click="setImageViewer('{{asset("$attachment->path")}}')" data-gallery="{{$reply->ticket_id}}">
+										<img src="{{asset("$attachment->path")}}" alt="" class="img-thumbnail square">
 									</a>
 									@else
 									<div class="preview-icon bg-dark">
@@ -221,7 +221,6 @@
 	</div>
 </div>
 <div class="modal fade" id="mdl_change_status">
-	
 	<form data-action="{{route('tickets.change_status',$data->id)}}" method="post" class="modal-dialog modal-dialog-centered" x-on:submit.prevent="changeStatus()">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -232,7 +231,7 @@
 				@csrf
 				<div class="form-group">
 					<label for="status">Status</label>
-					<select name="status" id="status" class="form-control" x-model="status">
+					<select name="status" id="status" class="form-control change_status" x-model="status" value="resolved">
 						<template x-for="status,key in datas">
 							<option :value="key" x-text="status"></option>
 						</template>
@@ -271,17 +270,18 @@
 				subcategory: '',
 				priority: '',
 			},
-			status:'',
+			status:'resolved',
 			previewImage: '',
 			showSubCategory: false,
 			showAddAttachment: false,
 			showDetailTicket: false,
 			init() {
+				this.status = document.querySelector('.change_status').getAttribute('value')
 				this.$watch('showAddAttachment',()=>{
 					console.log('showAddAttachment',this.showAddAttachment)
 				})
-				this.$watch('showSubCategory',()=>{
-					console.log('showSubCategory',this.showSubCategory)
+				this.$watch('status',()=>{
+					console.log('status',this.status)
 				})
 				console.log(this.showAddAttachment,this.showSubCategory)
 			},
@@ -312,6 +312,13 @@
 						}).then(res => {
 							console.log(res)
 							window.location.reload()	
+						}).catch(err => {
+							console.log(err)
+							SwalBS.fire({
+								title: "Gagal",
+								text: err.response.data.message,
+								icon: "error",
+							})
 						})
 					}
 				})
