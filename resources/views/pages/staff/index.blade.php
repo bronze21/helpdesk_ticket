@@ -9,13 +9,13 @@
 <div class="links h-100">
 	<ul class="nav h-100">
 		<li class="nav-item" :class="{'active': filter.isShow}">
-			<button role="button" class="nav-link text-white" x-on:click="filter.isShow = !filter.isShow">
+			<button role="button" class="nav-link text-dark" x-on:click="filter.isShow = !filter.isShow">
 				<i class="fa fa-filter d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Filter</small>
 			</button>
 		</li>
 		<li class="nav-item">
-			<a href="{{route('staff.create')}}" class="nav-link text-white">
+			<a href="{{route('staff.create')}}" class="nav-link text-dark">
 				<i class="fa fa-plus d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Create new</small>
 			</a>
@@ -25,7 +25,7 @@
 @endsection
 
 @section('content')
-<section class="container h-100 bg-white shadow">
+<section class="container-fluid h-100 bg-white shadow">
 	<div class="row">
 		<div class="col-12">
 			<form method="get" action="" class="ajs-fade pb-3 filters" 
@@ -76,48 +76,52 @@
 			</form>
 		</div>
 		<div class="col-12">
-			<div class="table-responsive">
-				<table class="mb-0 table table-borderless" id="data_table">
-					<thead>
-						<tr>
-							<th scope="col">No.</th>
-							<th scope="col">Nama</th>
-							<th scope="col">Email</th>
-							<th scope="col">No. Telepon</th>
-							<th scope="col" class="text-end">Role</th>
-							<th scope="col" class="text-end">Created Date</th>
-							<th scope="col" class="text-end">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach ($datas as $data)
-						<tr>
-							<td>{{$loop->iteration}}</td>
-							<td>{{$data->name}}</td>
-							<td>{{$data->email}}</td>
-							<td>{{$data?->phone_number ?? '-'}}</td>
-							<td class="text-end">
-								@if ($data?->role?->name)
-									<span class="badge bg-info d-block">{{$data->role->name}}</span>
-								@endif
-							</td>
-							<td class="text-end">{{$data->created_at->isoFormat('ddd, DD MMM YYYY HH:mm')}} WIB</td>
-							<td class="text-end">
-								<a href="{{route('staff.edit', $data->id)}}" role="button" class="btn btn-sm btn-outline-dark">
-									<i class="fa fa-edit me-0 me-lg-2"></i>
-									<span class="d-none d-lg-inline-block">Edit</span>
-								</a>
-								<a href="{{route('staff.destroy', $data->id)}}" role="button" class="btn btn-sm btn-outline-danger" x-on:click.prevent="confirmDelete($el, {{$data->id}})">
-									<i class="fa fa-trash me-0 me-lg-2"></i>
-									<span class="d-none d-lg-inline-block">Delete</span>
-								</a>
-							</td>
-						</tr>
-						@endforeach
-					</tbody>
-				</table>
+			<div class="card">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="mb-0 table table-borderless" id="data_table">
+							<thead>
+								<tr>
+									<th scope="col">No.</th>
+									<th scope="col">Nama</th>
+									<th scope="col">Email</th>
+									<th scope="col">No. Telepon</th>
+									<th scope="col" class="text-end">Role</th>
+									<th scope="col" class="text-end">Created Date</th>
+									<th scope="col" class="text-end">Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach ($datas as $data)
+								<tr>
+									<td>{{$loop->iteration}}</td>
+									<td>{{$data->name}}</td>
+									<td>{{$data->email}}</td>
+									<td>{{$data?->phone_number ?? '-'}}</td>
+									<td class="text-end">
+										@if ($data?->role?->name)
+											<span class="badge bg-info d-block">{{$data->role->name}}</span>
+										@endif
+									</td>
+									<td class="text-end">{{$data->created_at->isoFormat('ddd, DD MMM YYYY HH:mm')}} WIB</td>
+									<td class="text-end">
+										<a href="{{route('staff.edit', $data->id)}}" role="button" class="btn btn-sm btn-outline-dark">
+											<i class="fa fa-edit me-0 me-lg-2"></i>
+											<span class="d-none d-lg-inline-block">Edit</span>
+										</a>
+										<a href="{{route('staff.destroy', $data->id)}}" role="button" class="btn btn-sm btn-outline-danger" x-on:click.prevent="confirmDelete($el, {{$data->id}})">
+											<i class="fa fa-trash me-0 me-lg-2"></i>
+											<span class="d-none d-lg-inline-block">Delete</span>
+										</a>
+									</td>
+								</tr>
+								@endforeach
+							</tbody>
+						</table>
+					</div>
+					{{$datas->links()}}
+				</div>
 			</div>
-			{{$datas->links()}}
 		</div>
 	</div>
 </section>

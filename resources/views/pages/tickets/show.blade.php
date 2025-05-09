@@ -9,7 +9,7 @@
 <div class="links h-100">
 	<ul class="nav h-100">
 		<li class="nav-item">
-			<button role="button" class="nav-link text-white" x-on:click="showDetailTicket = !showDetailTicket">
+			<button role="button" class="nav-link text-dark" x-on:click="showDetailTicket = !showDetailTicket">
 				<i class="fa fa-filter d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Ticket Detail</small>
 			</button>
@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-<section class="container">
+<section class="container-fluid">
 	<div class="card mb-4" x-show="!showDetailTicket" x-cloack>
 		<div class="card-body">
 			<div class="row">
@@ -293,6 +293,7 @@
 			},
 			setImageViewer(image){
 				this.previewImage = image
+				console.log('setImageViewer',image)
 				imgViewer.show()
 			},
 			changeStatus(){

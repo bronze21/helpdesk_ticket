@@ -48,7 +48,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $slug
- * @property bool $isActive
+ * @property int $isActive
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -80,7 +80,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property string $slug
- * @property bool $isActive
+ * @property int $isActive
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -134,7 +134,7 @@ namespace App\Models{
  * @property int $category_id
  * @property string $name
  * @property string $slug
- * @property bool $isActive
+ * @property int $isActive
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -248,7 +248,7 @@ namespace App\Models{
  * @property int $id
  * @property int $ticket_id
  * @property int $user_id
- * @property bool $isActive
+ * @property int $isActive
  * @property \Illuminate\Support\Carbon $due_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -277,7 +277,7 @@ namespace App\Models{
  * @property string $user_type
  * @property int $ticket_id
  * @property string $messages
- * @property bool $isRead
+ * @property int $isRead
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -311,7 +311,7 @@ namespace App\Models{
  * @property int $id
  * @property int|null $user_id
  * @property int $ticket_id
- * @property string $action create | update | comment | delete
+ * @property string $action create | update | read | comment | delete
  * @property string $description
  * @property object|null $old_data
  * @property object|null $new_data

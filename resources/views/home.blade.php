@@ -21,7 +21,7 @@
 @endsection
 
 @section('content')
-<div class="container h-100">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="alert-container">

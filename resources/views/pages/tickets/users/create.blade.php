@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-<section class="container">
+<section class="container-fluid">
 	<form action="{{route('tickets.store')}}" method="post" enctype="multipart/form-data" class="main-form position-relative">
 		@csrf
 		<div class="card mb-3" id="step-1">

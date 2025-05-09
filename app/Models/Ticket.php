@@ -140,15 +140,26 @@ class Ticket extends Model
     public function getAvailableStatusAttribute()
     {
         $listStatus = [
-            'open'=>[],
+            'open'=>[
+                'unresolved',
+                'closed'
+            ],
             'on_progress'=>[
                 'resolved',
                 'unresolved',
                 'closed',
             ],
-            'resolved'=>[],
-            'unresolved'=>[],
-            'closed'=>[],
+            'resolved'=>[
+                'open',
+                'unresolved',
+            ],
+            'unresolved'=>[
+                'open'
+            ],
+            'closed'=>[
+                'open',
+                'on_progress'
+            ],
         ];
         return $listStatus[$this->status];
     }

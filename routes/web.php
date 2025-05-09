@@ -34,11 +34,10 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/tickets/{ticket}/store_reply', [App\Http\Controllers\TicketController::class, 'store_reply'])->name('tickets.store_reply');
 
     Route::middleware(EnsureFeaturesAreActive::using('isAdmin'))->group(function () {
-        Route::post('/tickets/{ticket}/change_status', [App\Http\Controllers\TicketController::class, 'updateStatus'])->name('tickets.change_status');
         Route::get('/categories/{category}/subcategories', [App\Http\Controllers\CategoryController::class, 'subcategories'])->name('categories.subcategories');
         Route::resource('categories', App\Http\Controllers\CategoryController::class);
         Route::resource('subcategories', App\Http\Controllers\SubCategoryController::class);
-        Route::get('/tickets/datas/staff', [App\Http\Controllers\TicketController::class, 'datas'])->name('tickets.datas.staff');
+        
         Route::resource('roles', App\Http\Controllers\RoleController::class);
         Route::get('/roles/{role}/users', [App\Http\Controllers\RoleController::class, 'users'])->name('roles.users');
         Route::post('/roles/{role}/attach_users', [App\Http\Controllers\RoleController::class, 'attachUsers'])->name('roles.attach_users');
@@ -49,6 +48,11 @@ Route::middleware(['auth'])->group(function(){
         Route::resource('staff', App\Http\Controllers\StaffController::class);
         Route::post('/staff/{user}/update_password', [App\Http\Controllers\StaffController::class, 'updatePassword'])->name('staff.update_password');
         Route::delete('/tickets/{ticket}', [App\Http\Controllers\TicketController::class, 'destroy'])->name('tickets.destroy');
+    });
+
+    Route::middleware(EnsureFeaturesAreActive::using('isAdminOrStaff'))->group(function () {
+       Route::get('/tickets/datas/staff', [App\Http\Controllers\TicketController::class, 'datas'])->name('tickets.datas.staff'); 
+       Route::post('/tickets/{ticket}/change_status', [App\Http\Controllers\TicketController::class, 'updateStatus'])->name('tickets.change_status');
     });
     
     

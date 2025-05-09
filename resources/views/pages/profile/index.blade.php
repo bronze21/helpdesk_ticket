@@ -10,13 +10,13 @@
 <div class="links h-100">
 	<ul class="nav h-100">
 		<li class="nav-item">
-			<a href="{{route('home')}}" role="button" class="d-none d-md-flex nav-link text-white">
+			<a href="{{route('home')}}" role="button" class="d-none d-md-flex nav-link text-dark">
 				<i class="fa fa-home d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Dashboard</small>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a href="{{route('users.index')}}" class="nav-link text-white">
+			<a href="{{route('users.index')}}" class="nav-link text-dark">
 				<i class="fa fa-ban d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Cancel</small>
 			</a>
@@ -26,7 +26,7 @@
 @endsection
 
 @section('content')
-<section class="container">
+<section class="container-fluid">
 	<div class="row mx-0">
 		<div class="col-12 card mx-0 px-0">
 			<form action="{{route('users.update',$data->id)}}" method="post" class="main-form position-relative h-100 card-body" x-watch="isFormValid('required')">

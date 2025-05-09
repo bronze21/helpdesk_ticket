@@ -1,4 +1,4 @@
-<div class="py-3 w-100"></div>
+{{-- <div class="py-3 w-100"></div> --}}
 <h4 class="card-title mb-2">Quick Shortcuts</h4>
 <div class="row mx-0 quick-shortcuts" style="gap:10px;">
 	<div class="col bg-white border rounded p-3 border-dark">

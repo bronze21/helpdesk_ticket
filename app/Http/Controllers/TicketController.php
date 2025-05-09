@@ -16,6 +16,7 @@ use App\Models\TicketsAgent;
 use App\Models\TicketsComment;
 use DataTables;
 use DB;
+use Feature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Pennant\Middleware\EnsureFeaturesAreActive;
@@ -38,10 +39,10 @@ class TicketController extends Controller
         $user = auth()->user();
         $role = $user->role;
 
+        // dd($user,$role,Feature::for($user)->active('isAdminOrStaff'));
         $this->data['title'] = "Tickets";
-        
-        if($role->slug!='user') {
-            $this->middleware([EnsureFeaturesAreActive::using('isAdmin'),EnsureFeaturesAreActive::using('isStaff')]);
+        if($role->slug!='user' && Feature::for($user)->active('isAdminOrStaff')){
+            // $this->middleware([EnsureFeaturesAreActive::using('isAdminOrStaff')]);
             return $this->index_staff();
         }
         return $this->user_index();

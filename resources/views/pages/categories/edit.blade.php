@@ -10,13 +10,13 @@
 <div class="links h-100">
 	<ul class="nav h-100">
 		<li class="nav-item">
-			<a href="{{route('home')}}" role="button" class="d-none d-md-flex nav-link text-white">
+			<a href="{{route('home')}}" role="button" class="d-none d-md-flex nav-link text-dark">
 				<i class="fa fa-home d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Dashboard</small>
 			</a>
 		</li>
 		<li class="nav-item">
-			<a href="{{route('categories.index')}}" class="nav-link text-white">
+			<a href="{{route('categories.index')}}" class="nav-link text-dark">
 				<i class="fa fa-ban d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Cancel</small>
 			</a>
@@ -26,65 +26,73 @@
 @endsection
 
 @section('content')
-<section class="container shadow bg-white mb-3">
-	<div class="row justify-content-md-center h-100">
-		<div class="col-12 px-md-4">
-			<form action="{{route('categories.update',$data->id)}}" method="post"
-				class="main-form position-relative h-100" x-watch="isFormValid()">
-				<div class="form-group row mb-3 mx-0">
-					@csrf
-					@method('PUT')
-					<label class="col-lg-4 ps-0 col-form-label" for="name">Nama <small
-							class="text-danger">*</small></label>
-					<input type="text" name="name" id="name" class="form-control col-lg" required="required"
-						x-model="category.required.name" value="{{$data?->name ?? ''}}">
-					@error('name')
-					<span class="invalid-feedback" role="alert">
-						<strong>{{ $message }}</strong>
-					</span>
-					@enderror
+<section class="container-fluid mb-3">
+	<div class="card">
+		<div class="card-body">
+			<div class="row justify-content-md-center h-100">
+				<div class="col-12">
+					<form action="{{route('categories.update',$data->id)}}" method="post"
+						class="main-form position-relative h-100" x-watch="isFormValid()">
+						<div class="form-group row mb-3 mx-0">
+							@csrf
+							@method('PUT')
+							<label class="col-lg-4 ps-0 col-form-label" for="name">Nama <small
+									class="text-danger">*</small></label>
+							<input type="text" name="name" id="name" class="form-control col-lg" required="required"
+								x-model="category.required.name" value="{{$data?->name ?? ''}}">
+							@error('name')
+							<span class="invalid-feedback" role="alert">
+								<strong>{{ $message }}</strong>
+							</span>
+							@enderror
+						</div>
+		
+						<div class="w-100 clearfix py-5"></div>
+						<div class="row position-absolute w-100 mx-0 absolute" style="bottom: 0;">
+							<div class="col-md-6 offset-md-6 px-0">
+								<button type="submit"
+									class="btn btn-primary d-flex w-100 justify-content-center align-items-center"
+									:disabled="!isFormValid()">
+									<i class="fa fa-save me-1"></i>Save
+								</button>
+							</div>
+						</div>
+					</form>
 				</div>
-
-				<div class="w-100 clearfix py-5"></div>
-				<div class="row position-absolute w-100 mx-0 absolute" style="bottom: 0;">
-					<div class="col-md-6 offset-md-6 px-0">
-						<button type="submit"
-							class="btn btn-primary d-flex w-100 justify-content-center align-items-center"
-							:disabled="!isFormValid()">
-							<i class="fa fa-save me-1"></i>Save
-						</button>
-					</div>
-				</div>
-			</form>
+			</div>
 		</div>
 	</div>
 </section>
-<section class="container bg-white shadow">
-	<div class="row mb-3">
-		<div class="col">
-			<h5 class="fw-bold">Sub Categories</h5>
-		</div>
-		<div class="col-auto">
-			<input type="hidden" id="category_id" value="{{$data->id}}">
-			<button type="btn" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#mdl_create_subcategory"><i class="fa fa-plus me-1"></i>Sub Category</button>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-12 px-md-4">
-			<div class="table-responsive">
-				<table class="table table-borderless datatables" id="subcategories"
-					data-ajax_url="{{route('categories.subcategories', $data->id)}}">
-					<thead>
-						<tr>
-							<th data-col_name="DT_RowIndex" data-orderable="true" width="5%" scope="col">#</th>
-							<th data-col_name="name" data-orderable="true" scope="col">Sub Category Name</th>
-							<th data-col_name="status" data-orderable="true" scope="col">Status</th>
-							<th data-col_name="action" data-orderable="false" scope="col" class="text-end">Action</th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-				</table>
+<section class="container-fluid">
+	<div class="card">
+		<div class="card-body">
+			<div class="row mb-3">
+				<div class="col">
+					<h5 class="fw-bold">Sub Categories</h5>
+				</div>
+				<div class="col-auto">
+					<input type="hidden" id="category_id" value="{{$data->id}}">
+					<button type="btn" class="btn btn-primary" data-bs-toggle="modal"
+						data-bs-target="#mdl_create_subcategory"><i class="fa fa-plus me-1"></i>Sub Category</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="table-responsive">
+						<table class="table table-borderless datatables" id="subcategories"
+							data-ajax_url="{{route('categories.subcategories', $data->id)}}">
+							<thead>
+								<tr>
+									<th data-col_name="DT_RowIndex" data-orderable="true" width="5%" scope="col">#</th>
+									<th data-col_name="name" data-orderable="true" scope="col">Sub Category Name</th>
+									<th data-col_name="status" data-orderable="true" scope="col">Status</th>
+									<th data-col_name="action" data-orderable="false" scope="col" class="text-end">Action</th>
+								</tr>
+							</thead>
+							<tbody></tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

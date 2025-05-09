@@ -10,13 +10,13 @@
 <div class="links h-100">
 	<ul class="nav h-100">
 		<li class="nav-item">
-			<button role="button" class="nav-link text-white">
+			<button role="button" class="nav-link text-dark" x-on:click="filter.isShow = !filter.isShow">
 				<i class="fa fa-filter d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Filter</small>
 			</button>
 		</li>
 		<li class="nav-item">
-			<a href="{{route('tickets.create')}}" class="nav-link text-white">
+			<a href="{{route('tickets.create')}}" class="nav-link text-dark">
 				<i class="fa fa-plus d-block text-center" style="font-size: 1.25rem"></i>
 				<small>Create new</small>
 			</a>
@@ -27,7 +27,7 @@
 @endsection
 
 @section('content')
-<section class="container h-100 p-3">
+<section class="container-fluid h-100 p-3">
 	<div class="row mb-3" x-show="filter.isShow" x-transition:enter="fade show" x-transition:leave="fade hide">
 		<form method="GET" action="" class="col-12">
 			<div class="card">
