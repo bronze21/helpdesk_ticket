@@ -62,7 +62,7 @@
                         @endfeature
                         @feature('isAdmin')
                         <li class="nav-item">
-                            <a href="{{route('staff.index')}}" class="nav-link" role="button">
+                            <a href="{{route('staff.index')}}" class="nav-link {{Route::is('staff.*')?'active':''}}" role="button">
                                 <i class="fa fa-users"></i> 
                                 <span>Staff</span>
                             </a>
@@ -70,7 +70,7 @@
                         @endfeature
                         @feature('isAdmin')
                         <li class="nav-item">
-                            <a href="{{route('roles.index')}}" class="nav-link" role="button">
+                            <a href="{{route('roles.index')}}" class="nav-link {{Route::is('roles.*')?'active':''}}" role="button">
                                 <i class="fa fa-gears"></i> 
                                 <span>Roles</span>
                             </a>
